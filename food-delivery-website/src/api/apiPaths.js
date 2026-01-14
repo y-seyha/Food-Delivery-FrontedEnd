@@ -5,15 +5,16 @@ export const API_PATHS = {
     LOGIN: "/auth/login",
     REGISTER: "/auth/register",
     LOGOUT: "/auth/logout",
+    PROFILE: "/auth/profile",
   },
 
   FOOD: {
-    LIST: "/foods",
+    FOODS: "/foods",
     DETAILS: (id) => `/foods/${id}`,
   },
 
   ORDER: {
     CREATE: "/orders",
-    MY_ORDERS: "/orders/my",
+    MY_ORDERS: "/orders/myOrders",
   },
 };

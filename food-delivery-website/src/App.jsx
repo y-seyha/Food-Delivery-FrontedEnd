@@ -10,19 +10,17 @@ import Menu from "./pages/Menu";
 import FoodDetails from "./pages/FoodDetails";
 import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
-
-import Navbar from "./components/common/Navbar";
+import Profile from "./pages/Profile";
 
 const App = () => {
   return (
     <CartProvider>
-      <Navbar />
-
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Menu />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/foods/:id" element={<FoodDetails />} />
 
         {/* Protected Routes */}
