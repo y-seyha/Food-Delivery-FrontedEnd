@@ -83,8 +83,8 @@ const Register = () => {
       </div>
 
       {/* Form Card */}
-      <div className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl bg-white p-6 sm:p-8 md:p-10 rounded-xl shadow-lg mx-auto">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-red-500 mb-6">
+      <div className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-xl bg-white p-6 sm:p-8 md:p-10 rounded-xl shadow-lg mx-auto">
+        <h2 className="text-2xl sm:text-3xl md:text-3xl font-bold text-center text-red-500 mb-6">
           Register
         </h2>
 

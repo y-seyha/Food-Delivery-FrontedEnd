@@ -5,6 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 import axiosInstance from "../api/axiosInstance";
 import { API_PATHS } from "../api/apiPaths";
 import { jwtDecode } from "jwt-decode";
+import { FaArrowLeft } from "react-icons/fa";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -45,9 +46,21 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-100 to-red-300 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-lg p-8">
-        <h2 className="text-3xl font-bold text-center text-red-600 mb-6">
+    <div className="min-h-screen bg-gradient-to-br from-red-100 to-red-300 flex items-center justify-center px-4 sm:px-6 lg:px-8 relative">
+      {/* Back to Menu */}
+      <div className="absolute top-4 left-4">
+        <button
+          onClick={() => navigate("/menu")}
+          className="flex items-center text-sm sm:text-base text-red-600 font-medium hover:text-red-700"
+        >
+          <FaArrowLeft className="mr-2" />
+          Back to Menu
+        </button>
+      </div>
+
+      {/* Login Card */}
+      <div className="max-w-md w-full bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-red-600 mb-6">
           Welcome Back
         </h2>
 
@@ -58,30 +71,37 @@ const Login = () => {
         )}
 
         <form className="space-y-5" onSubmit={handleSubmit}>
+          {/* Email */}
           <div>
-            <label className="block text-gray-700 mb-2">Email</label>
+            <label className="block text-gray-700 mb-2 text-sm sm:text-base">
+              Email
+            </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               required
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-400 focus:outline-none"
+              className="w-full px-4 py-2 sm:py-3 border rounded-lg focus:ring-2 focus:ring-red-400 focus:outline-none text-sm sm:text-base"
             />
           </div>
 
+          {/* Password */}
           <div>
-            <label className="block text-gray-700 mb-2">Password</label>
+            <label className="block text-gray-700 mb-2 text-sm sm:text-base">
+              Password
+            </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               required
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-400 focus:outline-none"
+              className="w-full px-4 py-2 sm:py-3 border rounded-lg focus:ring-2 focus:ring-red-400 focus:outline-none text-sm sm:text-base"
             />
           </div>
 
+          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
@@ -96,7 +116,8 @@ const Login = () => {
           </button>
         </form>
 
-        <div className="mt-5 text-center text-sm text-gray-600">
+        {/* Links */}
+        <div className="mt-5 text-center text-sm sm:text-base text-gray-600">
           <p>
             Don't have an account?{" "}
             <Link

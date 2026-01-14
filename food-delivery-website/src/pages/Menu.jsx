@@ -5,6 +5,7 @@ import Loader from "../components/common/Loader";
 import axiosInstance from "../api/axiosInstance";
 import { API_PATHS } from "../api/apiPaths";
 import { useCart } from "../hooks/useCart";
+import Footer from "../components/common/Footer";
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -75,9 +76,12 @@ const Menu = () => {
 
                 {/* Food Info */}
                 <div className="p-4 flex flex-col flex-1">
-                  <h2 className="font-semibold text-lg truncate">{food.name}</h2>
+                  <h2 className="font-semibold text-lg truncate">
+                    {food.name}
+                  </h2>
                   <p className="text-gray-500 text-sm mt-1 line-clamp-2">
-                    {food.description || "Delicious food to satisfy your hunger!"}
+                    {food.description ||
+                      "Delicious food to satisfy your hunger!"}
                   </p>
 
                   {/* Buttons */}
@@ -110,6 +114,7 @@ const Menu = () => {
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   );
 };
