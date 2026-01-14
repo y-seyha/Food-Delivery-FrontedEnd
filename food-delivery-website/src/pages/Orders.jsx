@@ -29,11 +29,11 @@ const Orders = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 sm:px-6 lg:px-12 py-8 max-w-6xl mx-auto">
-      {/* Back */}
       <button
         onClick={() => navigate("/menu")}
-        className="flex items-center gap-2 text-gray-600 hover:text-red-500 mb-6"
+        className="flex items-center gap-2 text-gray-500 hover:text-gray-800 mb-6 -mt-5  cursor-pointer"
       >
+        {/* Back */}
         <FaArrowLeft /> Back
       </button>
 

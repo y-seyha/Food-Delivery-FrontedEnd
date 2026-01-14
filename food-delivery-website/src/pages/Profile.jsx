@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import axiosInstance from "../api/axiosInstance";
 import { API_PATHS } from "../api/apiPaths";
 import { FaArrowLeft, FaSignOutAlt } from "react-icons/fa";
+import defaultAvatar from "../assets/profilePicture.webp";
 
 const Profile = () => {
   const { token, logoutUser } = useContext(AuthContext);
@@ -41,35 +42,41 @@ const Profile = () => {
     return <p className="text-center mt-20 text-gray-500">Loading profile…</p>;
   }
 
+  if (!user) return null;
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm px-4 py-3 flex items-center">
+      <div className="bg-white shadow-sm px-4 py-3 flex items-center relative">
         <button
           onClick={() => navigate("/")}
-          className="flex items-center gap-2 text-gray-600 hover:text-black"
+          className="flex items-center gap-2 text-gray-600 hover:text-black z-10"
         >
           <FaArrowLeft />
           Back
         </button>
-        <h1 className="flex-1 text-center font-semibold text-lg">My Profile</h1>
+
+        <h1 className="absolute left-1/2 -translate-x-1/2 font-semibold text-lg">
+          My Profile
+        </h1>
       </div>
 
       {/* Content */}
       <div className="max-w-4xl mx-auto p-4 md:p-8 grid gap-6 md:grid-cols-[300px_1fr]">
         {/* Left */}
         <div className="bg-white rounded-2xl shadow p-6 flex flex-col items-center">
+          {/* Avatar */}
           <div className="w-28 h-28 rounded-full bg-gradient-to-tr from-orange-400 to-red-500 p-[3px]">
-            <div className="w-full h-full rounded-full bg-gray-100 flex items-center justify-center text-4xl font-bold">
-              {user.profileImage ? (
-                <img
-                  src={user.profileImage}
-                  alt="Profile"
-                  className="w-full h-full object-cover rounded-full"
-                />
-              ) : (
-                user.name?.charAt(0).toUpperCase()
-              )}
+            <div className="w-full h-full rounded-full bg-gray-100 overflow-hidden">
+              <img
+                src={user.profileImage || defaultAvatar}
+                alt="Profile"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = defaultAvatar;
+                }}
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
 

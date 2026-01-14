@@ -53,22 +53,22 @@ const Cart = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-6">
-      {/* Container with responsive padding */}
+      {/* Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
         {/* Back button */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-gray-600 hover:text-red-500 mb-6"
+          className="flex items-center gap-2 text-gray-600 hover:text-red-500 mb-4"
         >
           <FaArrowLeft /> Back
         </button>
 
-        <h1 className="text-2xl md:text-3xl font-bold mb-8">Your Cart</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6">Your Cart</h1>
 
         {/* Main grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8">
           {/* LEFT: CART ITEMS */}
-          <div className="bg-white rounded-2xl shadow-md p-6">
+          <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6">
             <h2 className="text-xl font-semibold mb-6">Cart Items</h2>
 
             {cartItems.length === 0 && (
@@ -77,35 +77,34 @@ const Cart = () => {
               </p>
             )}
 
-            {/* Cart rows */}
             <div className="space-y-6">
               {cartItems.map((item) => (
                 <div
                   key={item._id}
-                  className="flex gap-4 items-center border-b pb-6 px-2 last:border-b-0"
+                  className="flex flex-col sm:flex-row gap-4 sm:items-center border-b pb-6 last:border-b-0"
                 >
                   {/* Image */}
                   <img
                     src={item.image || "/placeholder.png"}
                     alt={item.name}
-                    className="w-24 h-24 rounded-xl object-cover"
+                    className="w-full sm:w-24 h-40 sm:h-24 rounded-xl object-cover"
                   />
 
                   {/* Info */}
                   <div className="flex-1">
                     <h3 className="font-semibold text-lg">{item.name}</h3>
-                    <p className="text-sm text-gray-500 line-clamp-1">
+                    <p className="text-sm text-gray-500 line-clamp-2">
                       {item.description}
                     </p>
 
-                    <div className="flex items-center gap-4 mt-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mt-3">
                       {/* Quantity */}
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() =>
                             item.quantity > 1 && addToCart(item, -1)
                           }
-                          className="w-8 h-8 bg-gray-200 rounded hover:bg-gray-300"
+                          className="w-10 h-10 bg-gray-200 rounded-lg hover:bg-gray-300"
                         >
                           −
                         </button>
@@ -114,28 +113,29 @@ const Cart = () => {
 
                         <button
                           onClick={() => addToCart(item, 1)}
-                          className="w-8 h-8 bg-gray-200 rounded hover:bg-gray-300"
+                          className="w-10 h-10 bg-gray-200 rounded-lg hover:bg-gray-300"
                         >
                           +
                         </button>
+                        {/* Remove */}
+                        <button
+                          onClick={() => removeFromCart(item._id)}
+                          className="text-red-500 hover:text-red-600 text-sm"
+                        >
+                          <FaTrash className="h-9 cursor-pointer" />
+                        </button>
                       </div>
-
-                      {/* Remove */}
-                      <button
-                        onClick={() => removeFromCart(item._id)}
-                        className="text-gray-400 hover:text-red-500"
-                      >
-                        <FaTrash className="text-red-500" />
-                      </button>
                     </div>
                   </div>
 
                   {/* Price */}
-                  <div className="text-right">
+                  <div className="text-left sm:text-right mt-2 sm:mt-0">
                     <p className="font-semibold text-lg text-red-500">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      Total : ${(item.price * item.quantity).toFixed(2)}
                     </p>
-                    <p className="text-sm text-gray-400">${item.price} each</p>
+                    <p className="text-sm text-gray-400">
+                      Price: ${item.price} each
+                    </p>
                   </div>
                 </div>
               ))}
@@ -143,7 +143,7 @@ const Cart = () => {
           </div>
 
           {/* RIGHT: PAYMENT */}
-          <div className="bg-white rounded-2xl shadow-md p-6 h-fit sticky top-6">
+          <div className="bg-white rounded-2xl shadow-md p-6 h-fit lg:sticky lg:top-6">
             <h2 className="text-xl font-semibold mb-6">Payment</h2>
 
             <div className="space-y-4 text-sm">

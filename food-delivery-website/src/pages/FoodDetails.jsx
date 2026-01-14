@@ -47,21 +47,29 @@ const FoodDetails = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <main className="pt-16 max-w-3xl mx-auto p-6">
+      <main className="pt-16 max-w-3xl mx-auto p-6 relative">
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-gray-700 mb-6 hover:text-red-500 transition"
+          className="flex items-center gap-2 text-gray-700 mb-6 hover:text-red-500 transition absolute top-2"
         >
           <FaArrowLeft /> Back
         </button>
 
         <div className="flex flex-col gap-6 bg-white shadow-md rounded-lg p-6">
           {/* Food Image */}
-          <img
-            src={food.image || "/placeholder.png"}
-            alt={food.name}
-            className="w-full h-80 object-cover rounded-lg"
-          />
+          <div className="relative">
+            {added && (
+              <span className="absolute top-3 left-3 bg-green-500 text-white text-sm font-semibold px-3 py-1 rounded-full shadow-md">
+                Added!
+              </span>
+            )}
+
+            <img
+              src={food.image || "/placeholder.png"}
+              alt={food.name}
+              className="w-full h-80 object-cover rounded-lg"
+            />
+          </div>
 
           {/* Food Details */}
           <div className="flex flex-col gap-4">
@@ -93,11 +101,6 @@ const FoodDetails = () => {
               className="mt-4 bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition relative"
             >
               Add {quantity} to Cart
-              {added && (
-                <span className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded shadow">
-                  Added!
-                </span>
-              )}
             </button>
           </div>
         </div>
