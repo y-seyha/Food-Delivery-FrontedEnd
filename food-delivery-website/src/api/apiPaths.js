@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:5000/api";
+export const BASE_URL = import.meta.env.VITE_BASE_PRODUCTION_URL;
 
 export const API_PATHS = {
   AUTH: {
@@ -7,12 +7,10 @@ export const API_PATHS = {
     LOGOUT: "/auth/logout",
     PROFILE: "/auth/profile",
   },
-
   FOOD: {
     FOODS: "/foods",
     DETAILS: (id) => `/foods/${id}`,
   },
-
   ORDER: {
     CREATE: "/orders",
     MY_ORDERS: "/orders/myOrders",
