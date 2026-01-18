@@ -14,7 +14,7 @@ const Cart = () => {
   // Calculate total price
   const totalPrice = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
-    [cartItems]
+    [cartItems],
   );
 
   // Checkout handler
@@ -42,7 +42,7 @@ const Cart = () => {
       await axiosInstance.post(API_PATHS.ORDER.CREATE, orderBody);
 
       clearCart();
-      navigate("/orders");
+      navigate("/tracking");
     } catch (error) {
       console.error("Failed to place order:", error);
       alert(error.response?.data?.message || "Failed to place order");

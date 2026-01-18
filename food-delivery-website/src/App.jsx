@@ -11,6 +11,7 @@ import FoodDetails from "./pages/FoodDetails";
 import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
 import Profile from "./pages/Profile";
+import Tracking from "./pages/Tracking";
 
 const App = () => {
   return (
@@ -37,6 +38,15 @@ const App = () => {
           element={
             <ProtectedRoute>
               <Orders />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/tracking"
+          element={
+            <ProtectedRoute>
+              <Tracking />
             </ProtectedRoute>
           }
         />

@@ -2,36 +2,72 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
 import { API_PATHS } from "../api/apiPaths";
-import Loader from "../components/common/Loader";
 import { FaArrowLeft, FaMapMarkerAlt, FaClock } from "react-icons/fa";
+import Loader from "../components/common/Loader";
 
-const Orders = () => {
+const Tracking = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Fetch orders
   const fetchOrders = async () => {
     try {
+      setLoading(true);
       const res = await axiosInstance.get(API_PATHS.ORDER.MY_ORDERS);
-      setOrders(res.data);
-    } catch (error) {
-      console.error("Failed to fetch orders:", error);
+      const data = Array.isArray(res.data) ? res.data : res.data.orders || [];
+      setOrders(data);
+    } catch (err) {
+      console.error("Failed to fetch orders:", err);
+      setOrders([]);
     } finally {
       setLoading(false);
     }
   };
 
+  // Cancel an order
+  const handleCancel = async (orderId) => {
+    try {
+      // Backend should update status to "Cancelled"
+      await axiosInstance.put(API_PATHS.ORDER.CANCEL_ORDER);
+      fetchOrders();
+    } catch (err) {
+      console.error("Failed to cancel order:", err);
+      alert("Could not cancel the order. Please try again.");
+    }
+  };
+
   useEffect(() => {
     fetchOrders();
+    const interval = setInterval(fetchOrders, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) return <Loader />;
+  if (!orders.length)
+    return (
+      <div className="p-6 max-w-6xl mx-auto text-center">
+        <p className="text-gray-500 text-lg">You have no orders yet.</p>
+      </div>
+    );
 
   // Map backend status to colors
   const statusColors = {
-    Pending: { bg: "bg-yellow-100", text: "text-yellow-700" },
-    Delivered: { bg: "bg-green-100", text: "text-green-700" },
-    Cancelled: { bg: "bg-red-100", text: "text-red-700" },
+    Pending: {
+      bg: "bg-yellow-100",
+      text: "text-yellow-700",
+      bar: "bg-yellow-400 w-1/2",
+    },
+    Delivered: {
+      bg: "bg-green-100",
+      text: "text-green-700",
+      bar: "bg-green-500 w-full",
+    },
+    Cancelled: {
+      bg: "bg-red-100",
+      text: "text-red-700",
+      bar: "bg-red-500 w-full",
+    },
   };
 
   return (
@@ -43,30 +79,20 @@ const Orders = () => {
         <FaArrowLeft /> Back
       </button>
 
-      <h1 className="text-3xl font-bold mb-8">My Orders</h1>
-
-      {orders.length === 0 && (
-        <div className="bg-white rounded-xl shadow p-10 text-center">
-          <p className="text-gray-500 text-lg mb-4">
-            You haven’t placed any orders yet 🍽️
-          </p>
-          <button
-            onClick={() => navigate("/menu")}
-            className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
-          >
-            Browse Food
-          </button>
-        </div>
-      )}
+      <h1 className="text-3xl font-bold mb-8 text-center lg:text-left">
+        Order Tracking
+      </h1>
 
       <div className="space-y-8">
         {orders.map((order) => {
-          // Make sure first letter is uppercase to match statusColors key
+          // Make first letter uppercase to match keys in statusColors
           const statusKey =
             order.status.charAt(0).toUpperCase() + order.status.slice(1);
+
           const color = statusColors[statusKey] || {
             bg: "bg-gray-100",
             text: "text-gray-700",
+            bar: "bg-gray-400 w-full",
           };
 
           return (
@@ -102,7 +128,7 @@ const Orders = () => {
               <div className="divide-y">
                 {order.items.map((item) => (
                   <div
-                    key={item._id}
+                    key={item.food._id}
                     className="flex justify-between items-center py-4 gap-4"
                   >
                     <div className="flex items-center gap-4">
@@ -120,7 +146,6 @@ const Orders = () => {
                         </p>
                       </div>
                     </div>
-
                     <p className="font-semibold">
                       ${(item.food?.price * item.quantity).toFixed(2)}
                     </p>
@@ -135,6 +160,25 @@ const Orders = () => {
                   ${order.total.toFixed(2)}
                 </span>
               </div>
+
+              {/* Progress bar */}
+              <div className="h-3 bg-gray-200 rounded-full overflow-hidden mt-2">
+                <div
+                  className={`h-3 transition-all duration-500 ${color.bar}`}
+                ></div>
+              </div>
+
+              {/* Cancel button */}
+              {order.status.toLowerCase() === "pending" && (
+                <div className="text-right mt-2">
+                  <button
+                    onClick={() => handleCancel(order._id)}
+                    className="px-4 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                  >
+                    Cancel Order
+                  </button>
+                </div>
+              )}
             </div>
           );
         })}
@@ -143,4 +187,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default Tracking;

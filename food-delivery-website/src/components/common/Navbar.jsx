@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useCart } from "../../hooks/useCart";
 import { FaShoppingCart, FaBars, FaTimes, FaUser } from "react-icons/fa";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
+import { LuInbox } from "react-icons/lu";
 
 const Navbar = () => {
   const { cartItems } = useCart();
@@ -47,6 +48,13 @@ const Navbar = () => {
               )}
             </Link>{" "}
             <Link
+              to="/tracking"
+              className="relative hover:text-red-500 transition flex items-center gap-1"
+            >
+              <LuInbox />
+              Tracking
+            </Link>{" "}
+            <Link
               to="/orders"
               className="hover:text-red-500 transition flex items-center gap-1"
             >
@@ -87,6 +95,13 @@ const Navbar = () => {
           >
             <FaShoppingCart /> Cart ({totalItems})
           </Link>
+          <Link
+            to="/tracking"
+            className="px-4 py-3 hover:bg-red-50 flex items-center gap-2"
+          >
+            <LuInbox />
+            Tracking
+          </Link>{" "}
           <Link
             to="/orders"
             className="px-4 py-3 hover:bg-red-50 flex items-center gap-2"
