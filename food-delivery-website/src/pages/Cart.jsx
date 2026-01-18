@@ -1,4 +1,3 @@
-// src/pages/Cart.jsx
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaTrash } from "react-icons/fa";
@@ -10,14 +9,13 @@ const Cart = () => {
   const navigate = useNavigate();
   const { cartItems, addToCart, removeFromCart, clearCart } = useCart();
   const [checkingOut, setCheckingOut] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("cash"); // <-- new state
 
-  // Calculate total price
   const totalPrice = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
     [cartItems],
   );
 
-  // Checkout handler
   const handleCheckout = async () => {
     if (cartItems.length === 0) {
       alert("Your cart is empty!");
@@ -25,7 +23,7 @@ const Cart = () => {
     }
 
     try {
-      setCheckingOut(true); // <-- set to true at start
+      setCheckingOut(true);
 
       const orderItems = cartItems.map((item) => ({
         foodId: item._id,
@@ -35,9 +33,8 @@ const Cart = () => {
       const orderBody = {
         foods: orderItems,
         address: "Home Address", // TODO: replace with real user input
+        paymentMethod, // <-- send selected payment method
       };
-
-      console.log("Checkout body:", orderBody);
 
       await axiosInstance.post(API_PATHS.ORDER.CREATE, orderBody);
 
@@ -47,15 +44,13 @@ const Cart = () => {
       console.error("Failed to place order:", error);
       alert(error.response?.data?.message || "Failed to place order");
     } finally {
-      setCheckingOut(false); // <-- always reset
+      setCheckingOut(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50 py-6">
-      {/* Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-        {/* Back button */}
         <button
           onClick={() => navigate(-1)}
           className="flex items-center gap-2 text-gray-600 hover:text-red-500 mb-4"
@@ -65,40 +60,32 @@ const Cart = () => {
 
         <h1 className="text-2xl sm:text-3xl font-bold mb-6">Your Cart</h1>
 
-        {/* Main grid */}
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8">
-          {/* LEFT: CART ITEMS */}
+          {/* LEFT: Cart items */}
           <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6">
             <h2 className="text-xl font-semibold mb-6">Cart Items</h2>
-
             {cartItems.length === 0 && (
               <p className="text-center text-gray-500 py-10">
                 Your cart is empty
               </p>
             )}
-
             <div className="space-y-6">
               {cartItems.map((item) => (
                 <div
                   key={item._id}
                   className="flex flex-col sm:flex-row gap-4 sm:items-center border-b pb-6 last:border-b-0"
                 >
-                  {/* Image */}
                   <img
                     src={item.image || "/placeholder.png"}
                     alt={item.name}
                     className="w-full sm:w-24 h-40 sm:h-24 rounded-xl object-cover"
                   />
-
-                  {/* Info */}
                   <div className="flex-1">
                     <h3 className="font-semibold text-lg">{item.name}</h3>
                     <p className="text-sm text-gray-500 line-clamp-2">
                       {item.description}
                     </p>
-
                     <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mt-3">
-                      {/* Quantity */}
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() =>
@@ -108,16 +95,13 @@ const Cart = () => {
                         >
                           −
                         </button>
-
                         <span className="font-semibold">{item.quantity}</span>
-
                         <button
                           onClick={() => addToCart(item, 1)}
                           className="w-10 h-10 bg-gray-200 rounded-lg hover:bg-gray-300"
                         >
                           +
                         </button>
-                        {/* Remove */}
                         <button
                           onClick={() => removeFromCart(item._id)}
                           className="text-red-500 hover:text-red-600 text-sm"
@@ -127,11 +111,9 @@ const Cart = () => {
                       </div>
                     </div>
                   </div>
-
-                  {/* Price */}
                   <div className="text-left sm:text-right mt-2 sm:mt-0">
                     <p className="font-semibold text-lg text-red-500">
-                      Total : ${(item.price * item.quantity).toFixed(2)}
+                      Total: ${(item.price * item.quantity).toFixed(2)}
                     </p>
                     <p className="text-sm text-gray-400">
                       Price: ${item.price} each
@@ -142,7 +124,7 @@ const Cart = () => {
             </div>
           </div>
 
-          {/* RIGHT: PAYMENT */}
+          {/* RIGHT: Payment */}
           <div className="bg-white rounded-2xl shadow-md p-6 h-fit lg:sticky lg:top-6">
             <h2 className="text-xl font-semibold mb-6">Payment</h2>
 
@@ -153,10 +135,38 @@ const Cart = () => {
                   {cartItems.reduce((sum, item) => sum + item.quantity, 0)}
                 </span>
               </div>
-
               <div className="flex justify-between font-semibold text-lg">
                 <span>Total</span>
                 <span className="text-red-500">${totalPrice.toFixed(2)}</span>
+              </div>
+
+              {/* Payment method selection */}
+              <div className="mt-4">
+                <p className="text-gray-700 font-semibold mb-2">
+                  Select Payment Method:
+                </p>
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => setPaymentMethod("cash")}
+                    className={`px-4 py-2 rounded-lg border ${
+                      paymentMethod === "cash"
+                        ? "bg-red-500 text-white border-red-500"
+                        : "bg-white text-gray-700 border-gray-300"
+                    }`}
+                  >
+                    Cash
+                  </button>
+                  <button
+                    onClick={() => setPaymentMethod("online")}
+                    className={`px-4 py-2 rounded-lg border ${
+                      paymentMethod === "online"
+                        ? "bg-red-500 text-white border-red-500"
+                        : "bg-white text-gray-700 border-gray-300"
+                    }`}
+                  >
+                    Online
+                  </button>
+                </div>
               </div>
             </div>
 
