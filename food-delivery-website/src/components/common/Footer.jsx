@@ -25,24 +25,28 @@ const Footer = () => {
               <a
                 href="#"
                 className="text-gray-400 hover:text-red-500 transition"
+                data-testid="facebook-link"
               >
                 <FaFacebookF />
               </a>
               <a
                 href="#"
                 className="text-gray-400 hover:text-red-500 transition"
+               data-testid="twitter-link"
               >
                 <FaTwitter />
               </a>
               <a
                 href="#"
                 className="text-gray-400 hover:text-red-500 transition"
+               data-testid="instagram-link"
               >
                 <FaInstagram />
               </a>
               <a
                 href="#"
                 className="text-gray-400 hover:text-red-500 transition"
+               data-testid="linkedIn-link"
               >
                 <FaLinkedinIn />
               </a>

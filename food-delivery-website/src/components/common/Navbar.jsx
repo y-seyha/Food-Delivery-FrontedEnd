@@ -17,12 +17,19 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
-          <Link to="/" className="text-xl font-bold text-red-500">
+          <Link
+            to="/"
+            className="text-xl font-bold text-red-500"
+            data-testid="logo"
+          >
             NhamApp
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-6 items-center">
+          <div
+            className="hidden md:flex space-x-6 items-center"
+            data-testid="desktop-menu"
+          >
             <Link
               to="/menu"
               className="hover:text-red-500 transition flex items-center gap-1"
@@ -38,34 +45,39 @@ const Navbar = () => {
             <Link
               to="/cart"
               className="relative hover:text-red-500 transition flex items-center gap-1"
+              data-testid="cart-link"
             >
               <FaShoppingCart />
               Cart
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-3 bg-red-500 text-white rounded-full px-2 text-xs">
-                  {totalItems ? totalItems : 0}
+                <span
+                  className="absolute -top-2 -right-3 bg-red-500 text-white rounded-full px-2 text-xs"
+                  data-testid="cart-badge"
+                >
+                  {totalItems}
                 </span>
               )}
-            </Link>{" "}
+            </Link>
             <Link
               to="/tracking"
               className="relative hover:text-red-500 transition flex items-center gap-1"
             >
-              <LuInbox />
-              Tracking
-            </Link>{" "}
+              <LuInbox /> Tracking
+            </Link>
             <Link
               to="/orders"
               className="hover:text-red-500 transition flex items-center gap-1"
             >
-              <MdOutlineFavoriteBorder />
-              My Order
+              <MdOutlineFavoriteBorder /> My Order
             </Link>
           </div>
 
           {/* Mobile Hamburger */}
           <div className="md:hidden">
-            <button onClick={() => setMenuOpen(!menuOpen)}>
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              data-testid="hamburger-btn"
+            >
               {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
             </button>
           </div>
@@ -74,7 +86,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden bg-white shadow-md">
+        <div className="md:hidden bg-white shadow-md" data-testid="mobile-menu">
           <Link
             to="/menu"
             className=" px-4 py-3 hover:bg-red-50 flex items-center gap-2"
@@ -99,15 +111,13 @@ const Navbar = () => {
             to="/tracking"
             className="px-4 py-3 hover:bg-red-50 flex items-center gap-2"
           >
-            <LuInbox />
-            Tracking
-          </Link>{" "}
+            <LuInbox /> Tracking
+          </Link>
           <Link
             to="/orders"
             className="px-4 py-3 hover:bg-red-50 flex items-center gap-2"
           >
-            <MdOutlineFavoriteBorder />
-            My Order
+            <MdOutlineFavoriteBorder /> My Order
           </Link>
         </div>
       )}
