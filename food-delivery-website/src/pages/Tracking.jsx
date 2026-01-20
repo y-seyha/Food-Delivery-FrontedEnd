@@ -4,6 +4,7 @@ import axiosInstance from "../api/axiosInstance";
 import { API_PATHS } from "../api/apiPaths";
 import { FaArrowLeft, FaMapMarkerAlt, FaClock } from "react-icons/fa";
 import Loader from "../components/common/Loader";
+import { socket } from "../socket";
 
 const Tracking = () => {
   const navigate = useNavigate();
@@ -28,19 +29,50 @@ const Tracking = () => {
   // Cancel an order
   const handleCancel = async (orderId) => {
     try {
-      // Backend should update status to "Cancelled"
-      await axiosInstance.put(API_PATHS.ORDER.CANCEL_ORDER);
-      fetchOrders();
+      console.log("Canceling order:", orderId);
+      const res = await axiosInstance.put(`/orders/${orderId}/cancel`);
     } catch (err) {
-      console.error("Failed to cancel order:", err);
-      alert("Could not cancel the order. Please try again.");
+      console.error(
+        "Failed to cancel order:",
+        err.response?.data || err.message,
+      );
+      alert(
+        err.response?.data?.message ||
+          "Could not cancel the order. Please try again.",
+      );
     }
   };
 
   useEffect(() => {
-    fetchOrders();
-    const interval = setInterval(fetchOrders, 10000);
-    return () => clearInterval(interval);
+    fetchOrders(); // load current orders
+
+    const userId = localStorage.getItem("userId");
+
+    socket.on("orderCreated", (order) => {
+      const orderUserId = order.user._id || order.user;
+      if (orderUserId === userId) {
+        setOrders((prev) => [order, ...prev]);
+      }
+    });
+
+    socket.on("orderUpdated", (updatedOrder) => {
+      setOrders((prev) =>
+        prev.map((o) => (o._id === updatedOrder._id ? updatedOrder : o)),
+      );
+    });
+
+    socket.on("orderCanceled", (order) => {
+      const orderUserId = order.user._id || order.user;
+      if (orderUserId === userId) {
+        setOrders((prev) => prev.map((o) => (o._id === order._id ? order : o)));
+      }
+    });
+
+    return () => {
+      socket.off("orderCreated");
+      socket.off("orderUpdated");
+      socket.off("orderCanceled");
+    };
   }, []);
 
   if (loading) return <Loader />;

@@ -1,4 +1,4 @@
-export const BASE_URL = import.meta.env.VITE_BASE_PRODUCTION_URL;
+export const BASE_URL = import.meta.env.VITE_BASE_DEVELOPMENT_URL;
 
 export const API_PATHS = {
   AUTH: {
@@ -14,6 +14,6 @@ export const API_PATHS = {
   ORDER: {
     CREATE: "/orders",
     MY_ORDERS: "/orders/myorders",
-    CANCEL_ORDER: "/orders/cancel",
+    CANCEL_ORDER: (id) => `/orders/${id}/cancel`,
   },
 };
