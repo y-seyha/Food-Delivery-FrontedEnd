@@ -32,21 +32,21 @@ const Footer = () => {
               <a
                 href="#"
                 className="text-gray-400 hover:text-red-500 transition"
-               data-testid="twitter-link"
+                data-testid="twitter-link"
               >
                 <FaTwitter />
               </a>
               <a
                 href="#"
                 className="text-gray-400 hover:text-red-500 transition"
-               data-testid="instagram-link"
+                data-testid="instagram-link"
               >
                 <FaInstagram />
               </a>
               <a
                 href="#"
                 className="text-gray-400 hover:text-red-500 transition"
-               data-testid="linkedIn-link"
+                data-testid="linkedIn-link"
               >
                 <FaLinkedinIn />
               </a>
@@ -111,6 +111,7 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Contact  */}
           <div>
             <h3 className="text-lg font-semibold mb-3 text-white">
               Contact & Support

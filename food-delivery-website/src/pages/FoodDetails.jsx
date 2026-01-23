@@ -1,4 +1,3 @@
-// src/pages/FoodDetails.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -42,7 +41,7 @@ const FoodDetails = () => {
   const handleAddToCart = () => {
     addToCart(food, quantity);
     setAdded(true);
-    setTimeout(() => setAdded(false), 1500);
+    setTimeout(() => setAdded(false), 1000);
   };
 
   return (

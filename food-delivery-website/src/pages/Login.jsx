@@ -1,4 +1,3 @@
-// src/pages/Login.jsx
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
@@ -128,10 +127,7 @@ const Login = () => {
             </Link>
           </p>
           <p className="mt-2">
-            <Link
-              to="/forgot-password"
-              className="text-red-500 hover:underline"
-            >
+            <Link to="/register" className="text-red-500 hover:underline">
               Forgot Password?
             </Link>
           </p>

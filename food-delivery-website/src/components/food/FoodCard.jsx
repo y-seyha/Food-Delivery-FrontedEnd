@@ -1,5 +1,4 @@
-// src/components/food/FoodCard.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../hooks/useCart";
 
@@ -59,13 +58,7 @@ const FoodCard = ({ food }) => {
           onClick={handleAddToCart}
           className="flex-1 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition relative"
         >
-          Add {quantity} to Cart
-        </button>
-        <button
-          onClick={handleView}
-          className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 transition"
-        >
-          View
+          Add ({quantity}) to Cart
         </button>
       </div>
 

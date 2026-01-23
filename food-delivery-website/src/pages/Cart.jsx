@@ -9,7 +9,7 @@ const Cart = () => {
   const navigate = useNavigate();
   const { cartItems, addToCart, removeFromCart, clearCart } = useCart();
   const [checkingOut, setCheckingOut] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState("cash"); // <-- new state
+  const [paymentMethod, setPaymentMethod] = useState("cash");
 
   const totalPrice = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
@@ -150,8 +150,8 @@ const Cart = () => {
                     onClick={() => setPaymentMethod("cash")}
                     className={`px-4 py-2 rounded-lg border ${
                       paymentMethod === "cash"
-                        ? "bg-red-500 text-white border-red-500"
-                        : "bg-white text-gray-700 border-gray-300"
+                        ? "bg-red-500 text-white border-red-500  cursor-pointer"
+                        : "bg-white text-gray-700 border-gray-300  cursor-pointer"
                     }`}
                   >
                     Cash
@@ -160,8 +160,8 @@ const Cart = () => {
                     onClick={() => setPaymentMethod("online")}
                     className={`px-4 py-2 rounded-lg border ${
                       paymentMethod === "online"
-                        ? "bg-red-500 text-white border-red-500"
-                        : "bg-white text-gray-700 border-gray-300"
+                        ? "bg-red-500 text-white border-red-500  cursor-pointer"
+                        : "bg-white text-gray-700 border-gray-300  cursor-pointer"
                     }`}
                   >
                     Online

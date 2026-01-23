@@ -14,7 +14,7 @@ const Menu = () => {
   const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [addedFoodIds, setAddedFoodIds] = useState({}); // track overlay per item
+  const [addedFoodIds, setAddedFoodIds] = useState({}); // show overlay
 
   // Fetch foods from backend
   useEffect(() => {
@@ -42,7 +42,7 @@ const Menu = () => {
     // Hide overlay after 1.5s
     setTimeout(() => {
       setAddedFoodIds((prev) => ({ ...prev, [food._id]: false }));
-    }, 1500);
+    }, 1000);
   };
 
   if (loading) return <Loader />;
@@ -59,11 +59,11 @@ const Menu = () => {
           <div className="max-w-[1400px] mx-auto p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {foods.map((food) => (
               <div
-                key={food._id} // ✅ unique key for React
+                key={food._id}
                 className="bg-white rounded-xl shadow-md hover:shadow-2xl transform hover:-translate-y-2 transition duration-300 cursor-pointer overflow-hidden flex flex-col relative"
               >
                 {/* Food Image */}
-                <div className="relative w-full h-52">
+                <div className="relative w-full h-100">
                   <img
                     src={food.image || "/placeholder.png"}
                     alt={food.name}
@@ -96,7 +96,7 @@ const Menu = () => {
                     {/* View Details button */}
                     <button
                       onClick={() => navigate(`/foods/${food._id}`)}
-                      className="text-red-500 font-semibold hover:underline text-sm"
+                      className="text-red-500 font-semibold hover:underline text-sm bg-gra"
                     >
                       View
                     </button>
